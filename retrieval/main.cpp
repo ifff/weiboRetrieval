@@ -118,8 +118,8 @@ int main(int argc, char** argv)
         DocStream *qryStream, *fbQryStream, *exQryStream;
         try {
             qryStream = new lemur::parse::BasicDocStream(queryPath.c_str());
-            fbQryStream = new lemur::parse::BasicDocStream(freebasePath.c_str());
-            exQryStream = new lemur::parse::BasicDocStream(ossExQueryPath.str().c_str());
+            //fbQryStream = new lemur::parse::BasicDocStream(freebasePath.c_str());
+            //exQryStream = new lemur::parse::BasicDocStream(ossExQueryPath.str().c_str());
         }
         catch(Exception &ex) {
             ex.writeMessage();
@@ -141,8 +141,8 @@ int main(int argc, char** argv)
         model->setDocSmoothParam(docPrm);
 
         qryStream->startDocIteration();
-        fbQryStream->startDocIteration();
-        exQryStream->startDocIteration();
+        //fbQryStream->startDocIteration();
+        //exQryStream->startDocIteration();
         TextQuery *q, *eq;
 
         if (qryStream->hasMore()) {
@@ -155,13 +155,13 @@ int main(int argc, char** argv)
             cerr << "query count " << qm->totalCount() << endl;
             
             // load the expand query
-            if(fbQryStream->hasMore()) {
+            /*if(fbQryStream->hasMore()) {
                 Document *ed = fbQryStream->nextDoc();
                 eq = new TextQuery(*ed);
                 const TermQuery *etq = eq;
                 lemur::retrieval::MyQueryModel *eqm = new lemur::retrieval::MyQueryModel(*etq, *ind);
                 
-                /*// load the expand query and update the original query
+                // load the expand query and update the original query
                 if(exQryStream->hasMore()) {
                     Document *edshort = exQryStream->nextDoc();
                     TextQuery *eqshort = new TextQuery(*edshort);
@@ -172,13 +172,13 @@ int main(int argc, char** argv)
                         model->expandQuery(*eqm, *eqmshort, 0.5);   
                     }
                     delete eqmshort;
-                }*/
+                }
 
 
                 cerr << "freebase query count " << eqm->totalCount() << endl;
                 model->expandQuery(*qm, *eqm, 1.0-alpha);          
                 delete eqm;
-            } 
+            }  */
 
             model->scoreCollection(*qm, results);
             results.Sort();
