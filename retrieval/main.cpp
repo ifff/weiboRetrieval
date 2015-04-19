@@ -60,7 +60,7 @@ int main(int argc, char** argv)
     bool ignoreWeights = true;  
     bool doingRelModel = false;
     int fbDocCount = docNum;
-    int resultCount = 5000;
+    int resultCount = 1000;
     // Query parameter
     static SimpleKLParameter::QueryModelParam qryPrm;
     qryPrm.adjScoreMethod = SimpleKLParameter::adjustedScoreMethods(1); 
@@ -85,16 +85,18 @@ int main(int argc, char** argv)
         cout << "doc: " << docNum << ", term: " << termNum << endl;
         // basic parameters
         ostringstream ossIndexPath, ossQueryPath, ossResultPath, ossSupportPath,ossFreebasePath,ossExQueryPath;
-        if(year == 2013) {
+        /*if(year == 2013) {
             ossIndexPath <<  index_path << "/docEx/docEx" << qid << "/base.key";
             ossSupportPath << ssf_path << "/docEx/" << qid << ".supp";
         } else {
             ossIndexPath <<  index_path << "/DocEx/docEx" << qid << "/basic.key";
             ossSupportPath << ssf_path << "/DocExSSF/" << qid << ".supp";
-        }
+        }*/
+        ossIndexPath << index_path << "/index" << qid << "/base.key";
+        ossSupportPath << ssf_path << "/" << qid << ".supp";
         ossQueryPath <<  query_path << "/" << qid << ".query";
         ossFreebasePath <<  expand_path << "/" << qid << ".query";
-        ossExQueryPath << "shortQuery2012/" << qid << ".query";
+        ossExQueryPath << expand_path << "/" << qid << ".query";
         ossResultPath << result_path << "/"  << qid << ".res";
 
         string indexPath = ossIndexPath.str(); 
@@ -118,7 +120,7 @@ int main(int argc, char** argv)
         DocStream *qryStream, *fbQryStream, *exQryStream;
         try {
             qryStream = new lemur::parse::BasicDocStream(queryPath.c_str());
-            //fbQryStream = new lemur::parse::BasicDocStream(freebasePath.c_str());
+            fbQryStream = new lemur::parse::BasicDocStream(freebasePath.c_str());
             //exQryStream = new lemur::parse::BasicDocStream(ossExQueryPath.str().c_str());
         }
         catch(Exception &ex) {
@@ -141,7 +143,7 @@ int main(int argc, char** argv)
         model->setDocSmoothParam(docPrm);
 
         qryStream->startDocIteration();
-        //fbQryStream->startDocIteration();
+        fbQryStream->startDocIteration();
         //exQryStream->startDocIteration();
         TextQuery *q, *eq;
 
@@ -155,14 +157,13 @@ int main(int argc, char** argv)
             cerr << "query count " << qm->totalCount() << endl;
             
             // load the expand query
-            /*if(fbQryStream->hasMore()) {
+            if(fbQryStream->hasMore()) {
                 Document *ed = fbQryStream->nextDoc();
                 eq = new TextQuery(*ed);
                 const TermQuery *etq = eq;
                 lemur::retrieval::MyQueryModel *eqm = new lemur::retrieval::MyQueryModel(*etq, *ind);
-                
                 // load the expand query and update the original query
-                if(exQryStream->hasMore()) {
+                /*if(exQryStream->hasMore()) {
                     Document *edshort = exQryStream->nextDoc();
                     TextQuery *eqshort = new TextQuery(*edshort);
                     const TermQuery *etqshort = eqshort;
@@ -172,13 +173,13 @@ int main(int argc, char** argv)
                         model->expandQuery(*eqm, *eqmshort, 0.5);   
                     }
                     delete eqmshort;
-                }
-
+                }*/
+            
 
                 cerr << "freebase query count " << eqm->totalCount() << endl;
                 model->expandQuery(*qm, *eqm, 1.0-alpha);          
                 delete eqm;
-            }  */
+            }  
 
             model->scoreCollection(*qm, results);
             results.Sort();
