@@ -1,5 +1,5 @@
 #!/bin/bash
-queryFile=../queryFile
-resultDir=../websource/result/
-restart=10000
+queryFile=../query/origin/total.query
+resultDir=../query/web/raw/
+restart=1
 python startSearch.py $queryFile $resultDir $restart
