@@ -20,8 +20,11 @@ while True:
     if line_count % 1000 == 0:
         print '%s lines processed...' % (line_count)
     tweet_num = line.split('\t')[0]
-    tweet_content = line.split('\t')[1]
-    output_str = "<DOC>\n<DOCNO>%s</DOCNO>\n<TEXT>\n%s\n</TEXT>\n</DOC>\n" % (tweet_num, tweet_content)
+    tweet_content = ''
+    if len(line.split('\t')) == 2:
+        tweet_content = line.split('\t')[1]
+    output_str = "<DOC>\n<DOCNO>%s</DOCNO>\n<TEXT>\n%s\n</TEXT>\n</DOC>\n" % (tweet_num,\
+                                                                              tweet_content.lower())
     trec.write(output_str)
 
 origin.close()

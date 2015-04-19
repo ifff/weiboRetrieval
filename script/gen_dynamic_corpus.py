@@ -6,8 +6,8 @@
 
 
 
-query_file = open('../query/mb2012.topic', 'r')
-corpus_file_name = '../corpus/tweet12.docEx.corpus'
+query_file = open('../query/origin/mb2012.topic', 'r')
+corpus_file_name = '../corpus/refine.docEx.corpus'
 dynamic_doc_dir = '../corpus/dynamicCorpus/'
 info_dict = []
 doc_array = []

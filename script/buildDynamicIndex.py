@@ -9,7 +9,7 @@ query_num = 60
 home_dir = os.environ['HOME']
 base_dir = home_dir + '/study/weiboRetrieval'
 
-for index in range(query_num):
+for index in range(1,61):
     # write corpus list 
     filelist_name = "%s/parameter/filelist/%d.filelist"  % (base_dir, index)
     filelist = open(filelist_name, 'w')
@@ -36,7 +36,7 @@ for index in range(query_num):
     out_str += "</parameters>\n"
     para_file.write(out_str)
     para_file.close()
-    if index % 10 == 0:
+    if index % 15 == 0:
         os.system('BuildIndex ' + para_file_name)
     else:
         os.system('BuildIndex ' + para_file_name + ' & ')

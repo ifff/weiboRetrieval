@@ -36,10 +36,10 @@ while True:
         print 'content corpus ' + str(line_count) + ' lines processed...'
     content = line.strip().split('\t')
     if titleDic.has_key(content[0]):
-        docLine = content[0] + '\t' + content[1] + ' ' + titleDic[content[0]] + '\n'
+        docLine = line.strip().lower() + ' ' + titleDic[content[0]].lower() + '\n'
         docExFile.write(docLine)
     else:
-        docExFile.write(line)
+        docExFile.write(line.lower())
 
 docExFile.close()
 contentFile.close()

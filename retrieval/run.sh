@@ -12,11 +12,11 @@ expand=../query/issue/
 #expand=/index12/query/origin/
 #expand=/index12/query/issue/
 alpha=0.5
-#beta=0.9
+beta=0.5
 doc=5
 term=7
-#for beta in 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1; do
-for beta in 0.5; do
+for alpha in 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+##for beta in 0.5; do
     output=../result/dynamic/RTRM/issue_alpha${alpha}_beta${beta}_doc${doc}_term${term}/
     #output=result2012/QEFB
     #output=result2012/knowledgeTerm 
